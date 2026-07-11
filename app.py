@@ -73,8 +73,6 @@ webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
         "iceServers": [
-            {"urls": ["stun:stun.l.google.com:19302"]},
-            {"urls": ["stun:stun1.l.google.com:19302"]},
             {
                 "urls": [
                     "turn:global.turn.metered.ca:80",
@@ -92,6 +90,7 @@ webrtc_streamer(
                 "username": "4fa0a31e7bad496319adf9c3",
                 "credential": "FEjnapumLATmicGn"
             }
-        ]
+        ],
+        "iceTransportPolicy": "relay"  # Forces browser to use your TURN servers immediately
     }
 )
