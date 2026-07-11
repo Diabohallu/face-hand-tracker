@@ -1,12 +1,17 @@
 import cv2
-import mediapipe as mp
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+import mediapipe as mp
 
-# Initialize MediaPipe Solutions
-mp_hands = mp.solutions.hands
-mp_face = mp.solutions.face_detection
-mp_drawing = mp.solutions.drawing_utils
+# Explicitly import the solutions submodule to fix the AttributeError
+import mediapipe.solutions.hands as mp_hands
+import mediapipe.solutions.face_detection as mp_face
+import mediapipe.solutions.drawing_utils as mp_drawing
+
+# Initialize MediaPipe Solutions directly from the imports
+mp_hands = mp_hands
+mp_face = mp_face
+mp_drawing = mp_drawing
 
 # High confidence thresholds to block cross-talk and jittering
 hands = mp_hands.Hands(
