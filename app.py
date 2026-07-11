@@ -72,23 +72,13 @@ webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
         "iceServers": [
-            # We NEED this STUN server for the browser's initial gathering phase
-            {"urls": ["stun:stun.l.google.com:19302"]},
-            
-            # Followed by your private TURN relays
+            {"urls": "stun:stun.relay.metered.ca:80"},
             {
                 "urls": [
-                    "turn:global.turn.metered.ca:80",
-                    "turn:global.turn.metered.ca:443",
-                    "turn:global.turn.metered.ca:443?transport=tcp"
-                ],
-                "username": "4fa0a31e7bad496319adf9c3",
-                "credential": "FEjnapumLATmicGn"
-            },
-            {
-                "urls": [
-                    "turns:global.turn.metered.ca:443",
-                    "turns:global.turn.metered.ca:443?transport=tcp"
+                    "turn:global.relay.metered.ca:80",
+                    "turn:global.relay.metered.ca:80?transport=tcp",
+                    "turn:global.relay.metered.ca:443",
+                    "turns:global.relay.metered.ca:443?transport=tcp"
                 ],
                 "username": "4fa0a31e7bad496319adf9c3",
                 "credential": "FEjnapumLATmicGn"
