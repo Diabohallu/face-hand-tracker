@@ -69,7 +69,6 @@ st.write("Click 'Start' below to allow camera access and begin tracking in real 
 webrtc_streamer(
     key="vision-tracking",
     video_transformer_factory=VideoProcessor,
-    async_processing=True,
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
         "iceServers": [
