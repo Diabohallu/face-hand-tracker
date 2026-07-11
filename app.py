@@ -66,8 +66,8 @@ class VideoProcessor(VideoTransformerBase):
         return img
 
 # --- STREAMLIT UI ---
-st.title("Multi-Face & Hand Tracking WebApp")
-st.write("Click 'Start' below to allow camera access and begin tracking in real-time.")
+st.title("TinkCode Face Detection & Hand Tracking WebApp")
+st.write("Click 'Start' below to allow camera access and begin tracking in real time.")
 
 webrtc_streamer(
     key="vision-tracking",
