@@ -72,22 +72,26 @@ webrtc_streamer(
     async_processing=True,
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
-        "iceServers": [
-            # Standard Google public STUN fallbacks
-            {"urls": ["stun:stun.l.google.com:19302"]},
-            {"urls": ["stun:stun1.l.google.com:19302"]},
-            
-            # Open Relay Project Free TURN Server Configuration
-            {
-                "urls": ["turn:staticauth.openrelay.metered.ca:80", "turn:staticauth.openrelay.metered.ca:443"],
-                "username": "openrelayproject",
-                "credential": "openrelayprojectsecret"
-            },
-            {
-                "urls": ["turns:staticauth.openrelay.metered.ca:443"],
-                "username": "openrelayproject",
-                "credential": "openrelayprojectsecret"
-            }
-        ]
-    }
+    "iceServers": [
+        {"urls": ["stun:stun.l.google.com:19302"]},
+        {"urls": ["stun:stun1.l.google.com:19302"]},
+        {
+            "urls": [
+                "turn:global.turn.metered.ca:80",
+                "turn:global.turn.metered.ca:443",
+                "turn:global.turn.metered.ca:443?transport=tcp"
+            ],
+            "username": "4fa0a31e7bad496319adf9c3",
+            "credential": "FEjnapumLATmicGn"
+        },
+        {
+            "urls": [
+                "turns:global.turn.metered.ca:443",
+                "turns:global.turn.metered.ca:443?transport=tcp"
+            ],
+            "username": "4fa0a31e7bad496319adf9c3",
+            "credential": "FEjnapumLATmicGn"
+        }
+    ]
+}
 )
