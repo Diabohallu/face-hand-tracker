@@ -90,7 +90,6 @@ webrtc_streamer(
                 "username": "4fa0a31e7bad496319adf9c3",
                 "credential": "FEjnapumLATmicGn"
             }
-        ],
-        "ice_transport_policy": "relay"  # Fixed pythonic parameter naming
+        ]
     }
 )
