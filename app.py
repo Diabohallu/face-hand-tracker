@@ -91,6 +91,6 @@ webrtc_streamer(
                 "credential": "FEjnapumLATmicGn"
             }
         ],
-        "iceTransportPolicy": "relay"  # Forces browser to use your TURN servers immediately
+        "ice_transport_policy": "relay"  # Fixed pythonic parameter naming
     }
 )
