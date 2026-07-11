@@ -3,10 +3,10 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import mediapipe as mp
 
-# 1. Correct syntax to pull modules out of the mediapipe package
-import mediapipe.solutions.hands as mp_hands
-import mediapipe.solutions.face_detection as mp_face
-import mediapipe.solutions.drawing_utils as mp_drawing
+# Assign the solutions to variables using standard dot notation
+mp_hands = mp.solutions.hands
+mp_face = mp.solutions.face_detection
+mp_drawing = mp.solutions.drawing_utils
 
 # High confidence thresholds to block cross-talk and jittering
 hands = mp_hands.Hands(
