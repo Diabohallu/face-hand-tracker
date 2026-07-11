@@ -1,6 +1,6 @@
 import cv2
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
+from streamlit_webrtc import webrtc_streamer, VideoProcessorBase
 import mediapipe as mp
 
 # Assign the solutions to variables using standard dot notation
@@ -20,24 +20,24 @@ face_detector = mp_face.FaceDetection(
     min_detection_confidence=0.80  
 )
 
-class VideoProcessor(VideoTransformerBase):
-    def transform(self, frame):
-        # 1. Grab raw un-flipped frame from the webcam
+# Using VideoProcessorBase instead of the deprecated VideoTransformerBase
+class VideoProcessor(VideoProcessorBase):
+    def recv(self, frame):
+        # Grab raw un-flipped frame from the webcam
         img = frame.to_ndarray(format="bgr24")
         h_img, w_img, _ = img.shape
 
         # Convert to RGB for native MediaPipe calculation
         rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-        # 2. Run the models on the raw data (fixes distorted hand lines!)
+        # Run the models on the raw data
         face_results = face_detector.process(rgb_img)
         hand_results = hands.process(rgb_img)
 
-        # 3. --- MIRROR THE CAMERA IMAGE NOW ---
-        # We flip the pixel map horizontally
+        # Mirror the camera image
         img = cv2.flip(img, 1)
 
-        # 4. --- DRAW FACE DETECTIONS (With Mirrored Math) ---
+        # Draw Face Detections
         if face_results.detections:
             for detection in face_results.detections:
                 bbox = detection.location_data.relative_bounding_box
@@ -46,24 +46,21 @@ class VideoProcessor(VideoTransformerBase):
                 w = int(bbox.width * w_img)
                 h = int(bbox.height * h_img)
 
-                # Invert X coordinate manually so it lands on the mirrored side
                 x = w_img - raw_x - w
 
-                # Draw smooth face box
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 cv2.putText(img, "Face Detected", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
 
-        # 5. --- DRAW HAND SKELETONS (With Mirrored Math) ---
+        # Draw Hand Skeletons
         if hand_results.multi_hand_landmarks:
             for hand_landmarks in hand_results.multi_hand_landmarks:
-                # To mirror the hand, we temporarily invert the x-values of every joint landmark
                 for landmark in hand_landmarks.landmark:
                     landmark.x = 1.0 - landmark.x
                 
-                # Draw the perfectly synced hand skeleton
                 mp_drawing.draw_landmarks(img, hand_landmarks, mp_hands.HAND_CONNECTIONS)
 
-        return img
+        # Return a standard video frame
+        return frame.from_ndarray(img, format="bgr24")
 
 # --- STREAMLIT UI ---
 st.title("TinkCode Face Detection & Hand Tracking WebApp")
@@ -75,6 +72,11 @@ webrtc_streamer(
     async_processing=True,
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
+        "iceServers": [
+            {"urls": ["stun:stun.l.google.com:19302"]},
+            {"urls": ["stun:stun1.l.google.com:19302"]},
+            {"urls": ["stun:stun2.l.google.com:19302"]},
+            {"urls": ["stun:stun.services.mozilla.com"]}
+        ]
     }
 )
