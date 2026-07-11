@@ -3,10 +3,10 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import mediapipe as mp
 
-# Explicitly import the solutions submodule to fix the AttributeError
-import mediapipe.solutions.hands as mp_hands
-import mediapipe.solutions.face_detection as mp_face
-import mediapipe.solutions.drawing_utils as mp_drawing
+# Explicitly import the submodules from mediapipe.solutions
+from mediapipe.solutions import hands as mp_hands
+from mediapipe.solutions import face_detection as mp_face
+from mediapipe.solutions import drawing_utils as mp_drawing
 
 # Initialize MediaPipe Solutions directly from the imports
 mp_hands = mp_hands
