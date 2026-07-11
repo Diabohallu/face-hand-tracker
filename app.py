@@ -73,10 +73,21 @@ webrtc_streamer(
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={
         "iceServers": [
+            # Standard Google public STUN fallbacks
             {"urls": ["stun:stun.l.google.com:19302"]},
             {"urls": ["stun:stun1.l.google.com:19302"]},
-            {"urls": ["stun:stun2.l.google.com:19302"]},
-            {"urls": ["stun:stun.services.mozilla.com"]}
+            
+            # Open Relay Project Free TURN Server Configuration
+            {
+                "urls": ["turn:staticauth.openrelay.metered.ca:80", "turn:staticauth.openrelay.metered.ca:443"],
+                "username": "openrelayproject",
+                "credential": "openrelayprojectsecret"
+            },
+            {
+                "urls": ["turns:staticauth.openrelay.metered.ca:443"],
+                "username": "openrelayproject",
+                "credential": "openrelayprojectsecret"
+            }
         ]
     }
 )
